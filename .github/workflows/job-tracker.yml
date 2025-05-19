@@ -30,13 +30,12 @@ jobs:
           mkdir -p results
           python job_scraper.py
           if ls jobs_*.xlsx 1> /dev/null 2>&1; then
-          mv jobs_*.xlsx results/
+            mv jobs_*.xlsx results/
           else
-          echo "No Excel file to move (probably no jobs matched today)."
+            echo "⚠️ No Excel file found – maybe no jobs matched today?"
           fi
 
-
-      - name: Commit Excel file to repo (only if new file exists)
+      - name: Commit Excel file to repo (if it exists)
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
@@ -45,5 +44,4 @@ jobs:
             git commit -m "🗂️ Add new job results"
             git push
           else
-            echo "📭 No changes to commit."
-          fi
+            echo "📭 Nothing to commit – no new jobs."
