@@ -36,11 +36,14 @@ jobs:
           fi
 
 
-      - name: Commit Excel file to repo
+      - name: Commit Excel file to repo (only if new file exists)
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add results/*.xlsx
-          git commit -m "🗂️ Add new job results"
-          git push
-        continue-on-error: true
+          if git status --porcelain | grep .; then
+            git add results/*.xlsx
+            git commit -m "🗂️ Add new job results"
+            git push
+          else
+            echo "📭 No changes to commit."
+          fi
