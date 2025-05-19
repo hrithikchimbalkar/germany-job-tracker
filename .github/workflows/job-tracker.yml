@@ -29,7 +29,12 @@ jobs:
         run: |
           mkdir -p results
           python job_scraper.py
+          if ls jobs_*.xlsx 1> /dev/null 2>&1; then
           mv jobs_*.xlsx results/
+          else
+          echo "No Excel file to move (probably no jobs matched today)."
+          fi
+
 
       - name: Commit Excel file to repo
         run: |
